@@ -25,15 +25,17 @@ public class playerAiming : MonoBehaviour
     public int minAngle = -360;
     public int maxAngle = 360;
 
+    private float holdDownStartTime;
+
     int upcount = 0;
     int downcount = 0;
     int leftcount = 0;
     int rightcount = 0;
-
     int powerCount = 0;
+
     public static int missileCount = 0;
     bool isShootButtonDown = false;
-    bool isPowerCharging = true;
+    bool isPowerCharging = false;
     public bool isPlaying = false;
 
     public SpriteRenderer aimSprite;
@@ -46,7 +48,7 @@ public class playerAiming : MonoBehaviour
         healthbar.SetMaxHealth(curHealth);
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         curPower = 0;
-        playing_arrow.SetActive(false);
+        //playing_arrow.SetActive(false);
         missileCount = 0;
     }
 
@@ -96,8 +98,11 @@ public class playerAiming : MonoBehaviour
                 else
                     rightcount++;
             }
-            if (Input.GetKey(KeyCode.Space) && missileCount == 0)
+            if (Input.GetKeyDown(KeyCode.Space) && missileCount == 0)
             {
+                isPowerCharging = true;
+                holdDownStartTime = Time.time;
+                /*
                 if (powerCount == 3)
                 {
                     if (curPower < 100 && isPowerCharging)
@@ -119,15 +124,24 @@ public class playerAiming : MonoBehaviour
                 }
                 else
                     powerCount++;
+                */
             }
             if (Input.GetKeyUp(KeyCode.Space) && missileCount == 0)
             {
+                //float holdDownTime = Time.time - holdDownStartTime;
+                //curPower = (int)CalculateHoldPower(holdDownTime);
+                Shooting();
+                missileCount++;
+                isPowerCharging = false;
+                /*
                 isShootButtonDown = false;
                 Shooting();
                 missileCount++;
                 powerCount = 0;
+                */
             }
-
+            if(isPowerCharging)
+                curPower = (int)CalculateHoldPower(Time.time - holdDownStartTime);
             UpdateAim();
             healthbar.SetHealth(curHealth);
             if (curHealth <= 0)
@@ -138,6 +152,7 @@ public class playerAiming : MonoBehaviour
         else
         {
             playing_arrow.SetActive(false);
+            aimSprite.transform.localScale = new Vector3(0, aimSprite.transform.localScale.y, aimSprite.transform.localScale.z);
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -161,7 +176,7 @@ public class playerAiming : MonoBehaviour
     void UpdateAim()
     {
         aimSprite.transform.position = new Vector3(Mathf.Cos(curAngle*Mathf.Deg2Rad) * 0.5f + transform.position.x, Mathf.Sin(curAngle * Mathf.Deg2Rad) * 0.5f + transform.position.y, aimSprite.transform.position.z);
-        aimSprite.transform.localScale = new Vector3((float)curPower / 50, aimSprite.transform.localScale.y, aimSprite.transform.localScale.z);
+        aimSprite.transform.localScale = new Vector3((float)curPower / 70 + 0.1f, aimSprite.transform.localScale.y, aimSprite.transform.localScale.z);
         aimSprite.transform.rotation = Quaternion.Euler(0, 0, (float)curAngle);
         powerTxt.text = "Power: " + curPower;
         angleTxt.text = "Angle: " + curAngle;
@@ -211,5 +226,13 @@ public class playerAiming : MonoBehaviour
         curAngle--;
         if (curAngle == minAngle)
             curAngle = 0;
+    }
+
+    private float CalculateHoldPower(float holdTime)
+    {
+        float maxHoldTime = 1.0f;
+        float holdTimeNormalized = Mathf.Clamp01(holdTime / maxHoldTime);
+        float power = holdTimeNormalized * MaxPower;
+        return power;
     }
 }

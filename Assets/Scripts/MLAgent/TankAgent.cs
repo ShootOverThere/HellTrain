@@ -8,20 +8,23 @@ using Unity.MLAgents.Actuators;
 public class TankAgent : Agent
 {
     public GameObject enemy_obj;
-    public Enemy enemy;
+
+    [HideInInspector]
+    public playerAiming enemy;
+    [HideInInspector]
     public playerAiming player;
 
     // Start is called before the first frame update
     void Start()
     {
         player = this.GetComponent<playerAiming>();
-        enemy = enemy_obj.GetComponent<Enemy>();
+        enemy = enemy_obj.GetComponent<playerAiming>();
     }
 
     public override void Initialize()
     {
         player = this.GetComponent<playerAiming>();
-        enemy = enemy_obj.GetComponent<Enemy>();
+        enemy = enemy_obj.GetComponent<playerAiming>();
     }
 
     // 새로운 에피소드때 설정할 환경
@@ -40,7 +43,11 @@ public class TankAgent : Agent
     // 환경 관찰
     public override void CollectObservations(VectorSensor sensor)
     {
-        // 적 위치 확인
+        // 내 위치, 각도, 파워 보내기
+        sensor.AddObservation(transform.localPosition);
+        sensor.AddObservation(player.curAngle);
+        sensor.AddObservation(player.curPower);
+        // 적 위치 보내기
         sensor.AddObservation(enemy_obj.transform.localPosition);
     }
 

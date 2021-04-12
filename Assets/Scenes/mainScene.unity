@@ -196,8 +196,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "A, D: \uC88C\uC6B0 \uC774\uB3D9\nSPACE(\uAFB9): \uD30C\uC6CC \uC870\uC808\n\u2190
-    \u2192: \uAC01\uB3C4 \uC870\uC808\nR: \uC7AC\uC2DC\uC791"
+  m_Text: "A, D: \uC88C\uC6B0 \uC774\uB3D9\nSPACE(\uAFB9): \uD30C\uC6CC \uC870\uC808\nW:
+    \uC810\uD504\n\u2190 \u2192: \uAC01\uB3C4 \uC870\uC808\nR: \uC7AC\uC2DC\uC791"
 --- !u!222 &112689515
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -734,6 +734,11 @@ PrefabInstance:
       propertyPath: powerTxt
       value: 
       objectReference: {fileID: 2091777663}
+    - target: {fileID: 4933183901384797725, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4933183901384797725, guid: e7c6849cfeb805c46a1dac721f4413dd,
         type: 3}
       propertyPath: canvas_for_timer
@@ -1327,6 +1332,11 @@ PrefabInstance:
       objectReference: {fileID: 2091777663}
     - target: {fileID: 4933183901384797725, guid: e7c6849cfeb805c46a1dac721f4413dd,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4933183901384797725, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
       propertyPath: canvas_for_timer
       value: 
       objectReference: {fileID: 1599087991}
@@ -1334,6 +1344,11 @@ PrefabInstance:
         type: 3}
       propertyPath: enemy_obj
       value: 
+      objectReference: {fileID: 828999756}
+    - target: {fileID: 4933183901384797726, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4933183901626125292, guid: e7c6849cfeb805c46a1dac721f4413dd,
         type: 3}
@@ -1349,6 +1364,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4933183903162595723, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7c6849cfeb805c46a1dac721f4413dd, type: 3}
