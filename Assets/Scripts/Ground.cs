@@ -32,7 +32,7 @@ public class Ground : MonoBehaviour
         worldHeight = sr.bounds.size.y;
         pixelWidth = sr.sprite.texture.width;
         pixelHeight = sr.sprite.texture.height;
-        Debug.Log("World: " + worldWidth + ", " + worldHeight + " Pixel: " + pixelWidth + ", " + pixelHeight);
+        //Debug.Log("World: " + worldWidth + ", " + worldHeight + " Pixel: " + pixelWidth + ", " + pixelHeight);
 
         gameObject.AddComponent<PolygonCollider2D>();
     }

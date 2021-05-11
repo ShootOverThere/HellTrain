@@ -27,6 +27,10 @@ public class CameraFollow : MonoBehaviour
     }
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            gc.currentPlayer.GetComponent<playerAiming>().AngleUp();
+        }
         if (target != null)
         {
             point = Camera.main.WorldToViewportPoint(target.position);

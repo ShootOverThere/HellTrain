@@ -27,11 +27,8 @@ public class playerAiming : MonoBehaviour
 
     private float holdDownStartTime;
 
-    int upcount = 0;
-    int downcount = 0;
     int leftcount = 0;
     int rightcount = 0;
-    int powerCount = 0;
 
     public static int missileCount = 0;
     bool isShootButtonDown = false;
@@ -58,7 +55,11 @@ public class playerAiming : MonoBehaviour
         if (isPlaying)
         {
             playing_arrow.SetActive(true);
-           
+
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                curAngle = 150;
+            }
             if (Input.GetKeyDown(KeyCode.W))
             {
                 rb2d.velocity = Vector2.up * 5f;
@@ -131,7 +132,7 @@ public class playerAiming : MonoBehaviour
                 //float holdDownTime = Time.time - holdDownStartTime;
                 //curPower = (int)CalculateHoldPower(holdDownTime);
                 Shooting();
-                missileCount++;
+                //missileCount++;
                 isPowerCharging = false;
                 /*
                 isShootButtonDown = false;
@@ -182,8 +183,9 @@ public class playerAiming : MonoBehaviour
         angleTxt.text = "Angle: " + curAngle;
     }
 
-    void Shooting()
+    public void Shooting()
     {
+        missileCount++;
         GameObject missile = Instantiate(missile_prefab, aimSprite.transform.position, aimSprite.transform.rotation);
         CameraFollow.target = missile.transform;
         missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower / 4.5f;

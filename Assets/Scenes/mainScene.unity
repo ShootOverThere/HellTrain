@@ -721,6 +721,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4933183901384797725, guid: e7c6849cfeb805c46a1dac721f4413dd,
         type: 3}
+      propertyPath: gc
+      value: 
+      objectReference: {fileID: 2115644442}
+    - target: {fileID: 4933183901384797725, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
       propertyPath: angleTxt
       value: 
       objectReference: {fileID: 502836392}
@@ -744,6 +749,36 @@ PrefabInstance:
       propertyPath: canvas_for_timer
       value: 
       objectReference: {fileID: 1599087991}
+    - target: {fileID: 4933183901384797726, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
+      propertyPath: enemy_obj
+      value: 
+      objectReference: {fileID: 40568948}
+    - target: {fileID: 4933183901384797726, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4933183901384797727, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4933183901384797727, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
+      propertyPath: m_BrainParameters.NumStackedVectorObservations
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4933183901384797727, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
+      propertyPath: m_BrainParameters.VectorActionSize.Array.data[0]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4933183901384797727, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
+      propertyPath: m_BrainParameters.m_ActionSpec.m_NumContinuousActions
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4933183902719349230, guid: e7c6849cfeb805c46a1dac721f4413dd,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -888,11 +923,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
+  m_IgnoreReversedGraphics: 240
+  m_BlockingObjects: 638
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1179910288
 --- !u!114 &1599087993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1342,13 +1377,43 @@ PrefabInstance:
       objectReference: {fileID: 1599087991}
     - target: {fileID: 4933183901384797726, guid: e7c6849cfeb805c46a1dac721f4413dd,
         type: 3}
+      propertyPath: MaxStep
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4933183901384797726, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
       propertyPath: enemy_obj
       value: 
       objectReference: {fileID: 828999756}
     - target: {fileID: 4933183901384797726, guid: e7c6849cfeb805c46a1dac721f4413dd,
         type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4933183901384797727, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
+      propertyPath: TeamId
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4933183901384797727, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4933183901384797727, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
+      propertyPath: m_BrainParameters.NumStackedVectorObservations
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4933183901384797727, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
+      propertyPath: m_BrainParameters.VectorActionSize.Array.data[0]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4933183901384797727, guid: e7c6849cfeb805c46a1dac721f4413dd,
+        type: 3}
+      propertyPath: m_BrainParameters.m_ActionSpec.m_NumContinuousActions
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4933183901626125292, guid: e7c6849cfeb805c46a1dac721f4413dd,
         type: 3}
