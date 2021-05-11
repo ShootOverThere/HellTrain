@@ -73,18 +73,19 @@ public class TankAgent : Agent
     // 액션과 보상
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        /*
-        int power = Mathf.FloorToInt(Mathf.Clamp(actionBuffers.ContinuousActions[0], 0, 100));
-        int angle = Mathf.FloorToInt(Mathf.Clamp(actionBuffers.ContinuousActions[1], 0, 360));
+        // power 는 0~100 사이의 정수
+        int power = Mathf.FloorToInt(100*Mathf.Abs(actionBuffers.ContinuousActions[0]));
+        // angle 은 0~180 사이의 정수, 나중에 아래를 향해서 쏴야할 경우 181~360으로 변경해야할 수도 있음
+        int angle = Mathf.FloorToInt(180*Mathf.Abs(actionBuffers.ContinuousActions[1]));
         int shootAction = Mathf.FloorToInt(Mathf.Clamp(actionBuffers.ContinuousActions[2], 0, 1));
-        */
+        
 
-        var power = Mathf.Clamp(actionBuffers.ContinuousActions[0], 0, 100);
+        /*var power = Mathf.Clamp(actionBuffers.ContinuousActions[0], 0, 100);
         var angle = Mathf.Clamp(actionBuffers.ContinuousActions[1], 0, 360);
         var shootAction = (int)Mathf.Clamp(actionBuffers.ContinuousActions[2], 0, 1);
+        */
         bool isShoot = true;
 
-        gameObject.transform.Rotate(new Vector3(0, 0, 1), power);
         if (shootAction == 0)
         {
             isShoot = false;
@@ -97,8 +98,8 @@ public class TankAgent : Agent
         // 액션 조정
         //player.curPower = (int)actionBuffers.ContinuousActions[0];
         //player.curAngle = (int)actionBuffers.ContinuousActions[1];
-        player.curPower = Mathf.FloorToInt(power);
-        player.curAngle = Mathf.FloorToInt(angle);
+        player.curPower = power;
+        player.curAngle = angle;
 
         if(isShoot == true)
         {
