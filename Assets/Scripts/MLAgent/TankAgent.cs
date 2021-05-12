@@ -91,6 +91,11 @@ public class TankAgent : Agent
         int angle = Mathf.FloorToInt(180*Mathf.Abs(actionBuffers.ContinuousActions[1]));
         int shootAction = Mathf.FloorToInt(Mathf.Clamp(actionBuffers.ContinuousActions[2], 0, 1));
         
+
+        /*var power = Mathf.Clamp(actionBuffers.ContinuousActions[0], 0, 100);
+        var angle = Mathf.Clamp(actionBuffers.ContinuousActions[1], 0, 360);
+        var shootAction = (int)Mathf.Clamp(actionBuffers.ContinuousActions[2], 0, 1);
+        */
         bool isShoot = true;
 
         if (shootAction == 0)
@@ -108,9 +113,8 @@ public class TankAgent : Agent
 
         if(isShoot == true)
         {
-            if(playerAiming.missileCount == 0)
-                player.Shooting();
-                SetReward(1f);
+            player.Shooting();
+            SetReward(1f);
         }
 
         // 보상

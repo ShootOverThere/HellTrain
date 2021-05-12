@@ -7,7 +7,6 @@ public class CountDownTimer : MonoBehaviour
 {
     public GameControl gc;
 
-    [HideInInspector]
     public float currentTime = 0f;
     public float startingTime = 10f;
     public Color hurry_color;
