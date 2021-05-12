@@ -8,6 +8,7 @@ public class Ground : MonoBehaviour
     Texture2D newTexture;
     SpriteRenderer sr;
     PolygonCollider2D temp_poly2d;
+    List<PolygonCollider2D> polyList = new List<PolygonCollider2D>();
 
     float worldWidth, worldHeight;
     int pixelWidth, pixelHeight;
@@ -39,6 +40,12 @@ public class Ground : MonoBehaviour
         worldHeight = sr.bounds.size.y;
         pixelWidth = sr.sprite.texture.width;
         pixelHeight = sr.sprite.texture.height;
+        for(int i = 0; i<polyList.Count; i++)
+        {
+            Debug.Log(i + "번째 삭제");
+            Destroy(polyList[i]);
+        }
+        polyList.Clear();
         gameObject.AddComponent<PolygonCollider2D>();
     }
 
@@ -79,7 +86,7 @@ public class Ground : MonoBehaviour
         {
             temp_poly2d = gameObject.GetComponent<PolygonCollider2D>();
             Destroy(gameObject.GetComponent<PolygonCollider2D>());
-            gameObject.AddComponent<PolygonCollider2D>();
+            polyList.Add(temp_poly2d);
         }
         /*if(!gameObject.GetComponent<PolygonCollider2D>())
             gameObject.AddComponent<PolygonCollider2D>();*/

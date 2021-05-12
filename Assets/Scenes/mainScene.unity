@@ -1091,7 +1091,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gc: {fileID: 2115644442}
   currentTime: 0
-  startingTime: 21
+  startingTime: 11
   hurry_color: {r: 1, g: 0, b: 0, a: 1}
   not_hurry_color: {r: 0, g: 0, b: 0, a: 1}
   countdownText: {fileID: 2051201137}
