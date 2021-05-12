@@ -108,6 +108,8 @@ public class TankAgent : Agent
         }
         
         // 액션 조정
+        //player.curPower = (int)actionBuffers.ContinuousActions[0];
+        //player.curAngle = (int)actionBuffers.ContinuousActions[1];
         player.curPower = power;
         player.curAngle = angle;
 
@@ -116,19 +118,10 @@ public class TankAgent : Agent
             player.Shooting();
             SetReward(1f);
         }
+        //player.GetComponent<Rigidbody2D>().AddForce(new Vector2(5* vectorActions[0], 5 * vectorActions[1]));
 
         // 보상
-        if (player.transform.position.y < -30f)
-        {
-            SetReward(-30f);
-            EndEpisode();
-        }
-        if (enemy.transform.position.y < -30f)
-        {
-            SetReward(30f);
-            EndEpisode();
-        }
-        if (enemy.curHealth != 100)
+        if(enemy.curHealth != 100)
         {
             SetReward(10.0f);
             EndEpisode();
