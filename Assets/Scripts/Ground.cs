@@ -8,23 +8,17 @@ public class Ground : MonoBehaviour
     Texture2D newTexture;
     SpriteRenderer sr;
     PolygonCollider2D temp_poly2d;
+    List<PolygonCollider2D> polyList = new List<PolygonCollider2D>();
 
     float worldWidth, worldHeight;
     int pixelWidth, pixelHeight;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
         newTexture = Instantiate(srcTexture);
-        /*
-        new Texture2D(100, 20);
-
-        newTexture = new Texture2D(srcTexture.width, srcTexture.height);
-        Color[] colors = srcTexture.GetPixels();
-        newTexture.SetPixels(colors);
-        */
-
+        
         newTexture.Apply();
         MakeSprite();
 
@@ -32,9 +26,29 @@ public class Ground : MonoBehaviour
         worldHeight = sr.bounds.size.y;
         pixelWidth = sr.sprite.texture.width;
         pixelHeight = sr.sprite.texture.height;
-        //Debug.Log("World: " + worldWidth + ", " + worldHeight + " Pixel: " + pixelWidth + ", " + pixelHeight);
 
         gameObject.AddComponent<PolygonCollider2D>();
+    }
+
+    public void resetTerrain()
+    {
+        Debug.Log("sibal");
+        newTexture = Instantiate(srcTexture);
+        srcTexture.Apply();
+        sr.sprite = Sprite.Create(srcTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.one * 0.5f, 100f);
+
+        worldWidth = sr.bounds.size.x;
+        worldHeight = sr.bounds.size.y;
+        pixelWidth = sr.sprite.texture.width;
+        pixelHeight = sr.sprite.texture.height;
+        for(int i = 0; i<polyList.Count; i++)
+        {
+            Debug.Log(i + "번째 삭제");
+            Destroy(polyList[i]);
+        }
+        polyList.Clear();
+        PolygonCollider2D temp = gameObject.AddComponent<PolygonCollider2D>();
+        polyList.Add(temp);
     }
 
     public void MakeDot(Vector3 pos)
@@ -74,7 +88,9 @@ public class Ground : MonoBehaviour
         {
             temp_poly2d = gameObject.GetComponent<PolygonCollider2D>();
             Destroy(gameObject.GetComponent<PolygonCollider2D>());
-            gameObject.AddComponent<PolygonCollider2D>();
+            PolygonCollider2D temp = gameObject.AddComponent<PolygonCollider2D>();
+            polyList.Add(temp_poly2d);
+            polyList.Add(temp);
         }
         /*if(!gameObject.GetComponent<PolygonCollider2D>())
             gameObject.AddComponent<PolygonCollider2D>();*/
@@ -91,7 +107,7 @@ public class Ground : MonoBehaviour
 
     void MakeSprite()
     {
-        sr.sprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.one * 0.5f, 100f); ;
+        sr.sprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.one * 0.5f, 100f);
     }
 
     private Vector2Int WorldToPixel(Vector3 pos)
