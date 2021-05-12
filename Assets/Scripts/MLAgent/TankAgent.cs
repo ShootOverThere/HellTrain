@@ -23,8 +23,6 @@ public class TankAgent : Agent
 
     EnvironmentParameters m_ResetParams;
 
-    // Start is called before the first frame update
-
     public override void Initialize()
     {
         player_obj = this.gameObject;
