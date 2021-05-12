@@ -1,10 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
-// 테스트
+
 
 public class TankAgent : Agent
 {
@@ -80,12 +80,13 @@ public class TankAgent : Agent
     // 액션과 보상
    public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        
-        
+        // power 는 0~100 사이의 정수
         int power = Mathf.FloorToInt(100*Mathf.Abs(actionBuffers.ContinuousActions[0]));
-        int angle = Mathf.FloorToInt(360*Mathf.Abs(actionBuffers.ContinuousActions[1]));
+        // angle 은 0~180 사이의 정수, 나중에 아래를 향해서 쏴야할 경우 181~360으로 변경해야할 수도 있음
+        int angle = Mathf.FloorToInt(180*Mathf.Abs(actionBuffers.ContinuousActions[1]));
         int shootAction = Mathf.FloorToInt(Mathf.Clamp(actionBuffers.ContinuousActions[2], 0, 1));
-        Debug.Log(power);
+        
+
         /*var power = Mathf.Clamp(actionBuffers.ContinuousActions[0], 0, 100);
         var angle = Mathf.Clamp(actionBuffers.ContinuousActions[1], 0, 360);
         var shootAction = (int)Mathf.Clamp(actionBuffers.ContinuousActions[2], 0, 1);
