@@ -33,6 +33,7 @@ public class Ground : MonoBehaviour
     public void resetTerrain()
     {
         Debug.Log("sibal");
+        newTexture = Instantiate(srcTexture);
         srcTexture.Apply();
         sr.sprite = Sprite.Create(srcTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.one * 0.5f, 100f);
 
@@ -46,7 +47,8 @@ public class Ground : MonoBehaviour
             Destroy(polyList[i]);
         }
         polyList.Clear();
-        gameObject.AddComponent<PolygonCollider2D>();
+        PolygonCollider2D temp = gameObject.AddComponent<PolygonCollider2D>();
+        polyList.Add(temp);
     }
 
     public void MakeDot(Vector3 pos)
@@ -86,7 +88,9 @@ public class Ground : MonoBehaviour
         {
             temp_poly2d = gameObject.GetComponent<PolygonCollider2D>();
             Destroy(gameObject.GetComponent<PolygonCollider2D>());
+            PolygonCollider2D temp = gameObject.AddComponent<PolygonCollider2D>();
             polyList.Add(temp_poly2d);
+            polyList.Add(temp);
         }
         /*if(!gameObject.GetComponent<PolygonCollider2D>())
             gameObject.AddComponent<PolygonCollider2D>();*/
