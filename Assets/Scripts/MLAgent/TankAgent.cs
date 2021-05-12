@@ -8,14 +8,12 @@ using Unity.MLAgents.Actuators;
 // 정우 테스트
 
 public class TankAgent : Agent
-{    
-    GameObject player_obj;
+{
     
-    public GameObject ground_obj;
+    
+    GameObject player_obj;
     public GameObject enemy_obj;
 
-    [HideInInspector]
-    public Ground gr;
     [HideInInspector]
     public playerAiming enemy;
     [HideInInspector]
@@ -28,7 +26,6 @@ public class TankAgent : Agent
     public override void Initialize()
     {
         player_obj = this.gameObject;
-        gr = ground_obj.GetComponent<Ground>();
         player = this.GetComponent<playerAiming>();
         enemy = enemy_obj.GetComponent<playerAiming>();
 
@@ -63,7 +60,6 @@ public class TankAgent : Agent
         player.transform.localPosition = new Vector3(-12f, -5.4f, 0);
         enemy.transform.localPosition = new Vector3(11.42f, -5.4f, 0);
 
-        gr.resetTerrain();
         SetResetParameters();
     }
 
@@ -132,6 +128,8 @@ public class TankAgent : Agent
             SetReward(-10f);
             EndEpisode();
         }
+
+        SetReward(-0.05f);
     }
 
     public void SetTank()
