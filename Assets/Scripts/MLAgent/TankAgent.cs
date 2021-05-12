@@ -4,9 +4,12 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
+// 테스트
 
 public class TankAgent : Agent
 {
+    
+    
     GameObject player_obj;
     public GameObject enemy_obj;
 
@@ -26,7 +29,9 @@ public class TankAgent : Agent
         enemy = enemy_obj.GetComponent<playerAiming>();
 
         m_ResetParams = Academy.Instance.EnvironmentParameters;
+        
         SetResetParameters();
+        
     }
 
     // 새로운 에피소드때 설정할 환경
@@ -59,7 +64,8 @@ public class TankAgent : Agent
 
     // 환경 관찰
     public override void CollectObservations(VectorSensor sensor)
-    {
+    {   
+    
         // 내 위치, 각도, 파워 보내기
         sensor.AddObservation(player.transform.localPosition);
         sensor.AddObservation(player.curAngle);
@@ -69,22 +75,23 @@ public class TankAgent : Agent
         sensor.AddObservation(enemy_obj.transform.localPosition);
         sensor.AddObservation(enemy.curHealth);
     }
+    
 
     // 액션과 보상
-    public override void OnActionReceived(ActionBuffers actionBuffers)
+   public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        /*
-        int power = Mathf.FloorToInt(Mathf.Clamp(actionBuffers.ContinuousActions[0], 0, 100));
-        int angle = Mathf.FloorToInt(Mathf.Clamp(actionBuffers.ContinuousActions[1], 0, 360));
+        
+        
+        int power = Mathf.FloorToInt(100*Mathf.Abs(actionBuffers.ContinuousActions[0]));
+        int angle = Mathf.FloorToInt(360*Mathf.Abs(actionBuffers.ContinuousActions[1]));
         int shootAction = Mathf.FloorToInt(Mathf.Clamp(actionBuffers.ContinuousActions[2], 0, 1));
-        */
-
-        var power = Mathf.Clamp(actionBuffers.ContinuousActions[0], 0, 100);
+        Debug.Log(power);
+        /*var power = Mathf.Clamp(actionBuffers.ContinuousActions[0], 0, 100);
         var angle = Mathf.Clamp(actionBuffers.ContinuousActions[1], 0, 360);
         var shootAction = (int)Mathf.Clamp(actionBuffers.ContinuousActions[2], 0, 1);
+        */
         bool isShoot = true;
 
-        gameObject.transform.Rotate(new Vector3(0, 0, 1), power);
         if (shootAction == 0)
         {
             isShoot = false;
@@ -97,8 +104,8 @@ public class TankAgent : Agent
         // 액션 조정
         //player.curPower = (int)actionBuffers.ContinuousActions[0];
         //player.curAngle = (int)actionBuffers.ContinuousActions[1];
-        player.curPower = Mathf.FloorToInt(power);
-        player.curAngle = Mathf.FloorToInt(angle);
+        player.curPower = power;
+        player.curAngle = angle;
 
         if(isShoot == true)
         {
@@ -122,13 +129,14 @@ public class TankAgent : Agent
 
         SetReward(-0.05f);
     }
+
     public void SetTank()
     {
         //Set the attributes of the ball by fetching the information from the academy
         var scale = m_ResetParams.GetWithDefault("scale", 1.0f);
         player_obj.transform.localScale = new Vector3(scale, scale, scale);
     }
-
+    
     public void SetResetParameters()
     {
         SetTank();
