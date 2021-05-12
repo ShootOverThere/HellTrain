@@ -13,18 +13,11 @@ public class Ground : MonoBehaviour
     int pixelWidth, pixelHeight;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
         newTexture = Instantiate(srcTexture);
-        /*
-        new Texture2D(100, 20);
-
-        newTexture = new Texture2D(srcTexture.width, srcTexture.height);
-        Color[] colors = srcTexture.GetPixels();
-        newTexture.SetPixels(colors);
-        */
-
+        
         newTexture.Apply();
         MakeSprite();
 
@@ -32,8 +25,20 @@ public class Ground : MonoBehaviour
         worldHeight = sr.bounds.size.y;
         pixelWidth = sr.sprite.texture.width;
         pixelHeight = sr.sprite.texture.height;
-        //Debug.Log("World: " + worldWidth + ", " + worldHeight + " Pixel: " + pixelWidth + ", " + pixelHeight);
 
+        gameObject.AddComponent<PolygonCollider2D>();
+    }
+
+    public void resetTerrain()
+    {
+        Debug.Log("sibal");
+        srcTexture.Apply();
+        sr.sprite = Sprite.Create(srcTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.one * 0.5f, 100f);
+
+        worldWidth = sr.bounds.size.x;
+        worldHeight = sr.bounds.size.y;
+        pixelWidth = sr.sprite.texture.width;
+        pixelHeight = sr.sprite.texture.height;
         gameObject.AddComponent<PolygonCollider2D>();
     }
 
@@ -91,7 +96,7 @@ public class Ground : MonoBehaviour
 
     void MakeSprite()
     {
-        sr.sprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.one * 0.5f, 100f); ;
+        sr.sprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.one * 0.5f, 100f);
     }
 
     private Vector2Int WorldToPixel(Vector3 pos)
