@@ -10,10 +10,10 @@ using Unity.MLAgents.Actuators;
 public class TankAgent : Agent
 {    
     GameObject player_obj;
-    
+    public missile ms;
     public GameObject ground_obj;
     public GameObject enemy_obj;
-
+    public GameObject ms_obj;
     [HideInInspector]
     public Ground gr;
     [HideInInspector]
@@ -58,8 +58,8 @@ public class TankAgent : Agent
             enemy.curAngle = 0;
         }
 
-        player.transform.localPosition = new Vector3(-12f, -5.4f, 0);
-        enemy.transform.localPosition = new Vector3(11.42f, -5.4f, 0);
+        player.transform.localPosition = new Vector3(-4f, -5.4f, 0);
+        enemy.transform.localPosition = new Vector3(4f, -5.4f, 0);
 
         gr.resetTerrain();
         SetResetParameters();
@@ -71,12 +71,12 @@ public class TankAgent : Agent
     
         // 내 위치, 각도, 파워 보내기
         sensor.AddObservation(player.transform.localPosition);
-        sensor.AddObservation(player.curAngle);
-        sensor.AddObservation(player.curPower);
-        sensor.AddObservation(player.curHealth);
+        //sensor.AddObservation(player.curAngle);
+        //sensor.AddObservation(player.curPower);
+        //sensor.AddObservation(player.curHealth);
         // 적 위치 보내기
         sensor.AddObservation(enemy_obj.transform.localPosition);
-        sensor.AddObservation(enemy.curHealth);
+        //sensor.AddObservation(enemy.curHealth);
     }
     
 
@@ -86,9 +86,11 @@ public class TankAgent : Agent
         // power 는 0~100 사이의 정수
         int power = Mathf.FloorToInt(100*Mathf.Abs(actionBuffers.ContinuousActions[0]));
         // angle 은 0~180 사이의 정수, 나중에 아래를 향해서 쏴야할 경우 181~360으로 변경해야할 수도 있음
+        //power+=30;
         int angle = Mathf.FloorToInt(180*Mathf.Abs(actionBuffers.ContinuousActions[1]));
         int shootAction = Mathf.FloorToInt(Mathf.Clamp(actionBuffers.ContinuousActions[2], 0, 1));
-        
+        //angle=23;
+        /*
         bool isShoot = true;
 
         if (shootAction == 0)
@@ -99,18 +101,34 @@ public class TankAgent : Agent
         {
             isShoot = true;
         }
-        
+        */
         // 액션 조정
         player.curPower = power;
         player.curAngle = angle;
-
+        /*
         if(isShoot == true)
         {
-            if(playerAiming.missileCount == 0)
-                player.Shooting();
-                SetReward(1f);
+           if(playerAiming.missileCount == 0)
+               player.Shooting();
+            SetReward(1f);
+           
+        }
+        */
+        if(playerAiming.missileCount == 0)
+        {
+            ms_obj=player.Shooting();
+            ms=ms_obj.GetComponent<missile>();
+            SetReward(1f);
+        }
+        if(Mathf.Abs(enemy_obj.transform.position.x-ms.transform.position.x) <= 8){
+            SetReward(30f);
+        }
+        else
+        {
+             SetReward(-10f);
         }
 
+            
         // 보상
         if (player.transform.position.y < -30f)
         {
