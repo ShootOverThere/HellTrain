@@ -12,9 +12,6 @@ public class TankAgent : Agent
     public GameObject ms_obj;
     public missile ms;
 
-    public GameControl gc;
-
-
     GameObject player_obj;
     
     public GameObject ground_obj;
@@ -80,8 +77,9 @@ public class TankAgent : Agent
     
         // 내 위치, 각도, 파워 보내기
         sensor.AddObservation(player.transform.localPosition);
-        
-        sensor.AddObservation(gc.wind_field.forceMagnitude);
+        sensor.AddObservation(player.curAngle);
+        sensor.AddObservation(player.curPower);
+        sensor.AddObservation(player.curHealth);
         // 적 위치 보내기
         sensor.AddObservation(enemy_obj.transform.localPosition);
         sensor.AddObservation(enemy.curHealth);
