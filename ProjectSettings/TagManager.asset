@@ -19,8 +19,8 @@ TagManager:
   - 
   - Ground
   - Missile
+  - Missile_crash
   - Player
-  - 
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1557592753
     locked: 0
   - name: missile
     uniqueID: 1341199141

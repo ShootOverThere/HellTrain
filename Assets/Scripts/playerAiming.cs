@@ -183,17 +183,23 @@ public class playerAiming : MonoBehaviour
         angleTxt.text = "Angle: " + curAngle;
     }
 
-    public void Shooting()
+    public GameObject Shooting()
     {
-        missileCount++;
-        GameObject missile = Instantiate(missile_prefab, aimSprite.transform.position, aimSprite.transform.rotation);
-        CameraFollow.target = missile.transform;
-        missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower / 4.5f;
-        missile.GetComponent<Rigidbody2D>().AddForce(Vector3.forward * curPower / 5, ForceMode2D.Impulse);
-        FindObjectOfType<AudioManager>().Play("fire");
-        curPower = 0;
-        isPlaying = false;
-        canvas_for_timer.GetComponent<CountDownTimer>().TimeflowStop();
+        if (missileCount == 0)
+        {
+            missileCount++;
+            GameObject temp_missile = Instantiate(missile_prefab, aimSprite.transform.position, aimSprite.transform.rotation);
+            CameraFollow.target = temp_missile.transform;
+            temp_missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower / 4.5f;
+            temp_missile.GetComponent<Rigidbody2D>().AddForce(Vector3.forward * curPower / 5, ForceMode2D.Impulse);
+            FindObjectOfType<AudioManager>().Play("fire");
+            curPower = 0;
+            isPlaying = false;
+            canvas_for_timer.GetComponent<CountDownTimer>().TimeflowStop();
+
+            return temp_missile;
+        }
+        return null;
     }
 
     public void TakeDamage(int damage)
