@@ -10,7 +10,7 @@ public class GameControl : MonoBehaviour
     public GameObject canvas_for_timer;
     public GameObject background;
 
-    AreaEffector2D wind_field;
+    public AreaEffector2D wind_field;
     public Text wind_txt;
     
 
