@@ -4,7 +4,7 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
-// 테스트
+// 희원 테스트
 // 정우 테스트
 
 public class TankAgent : Agent
