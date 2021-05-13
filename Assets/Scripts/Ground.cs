@@ -32,10 +32,9 @@ public class Ground : MonoBehaviour
 
     public void resetTerrain()
     {
-        Debug.Log("sibal");
         newTexture = Instantiate(srcTexture);
         srcTexture.Apply();
-        sr.sprite = Sprite.Create(srcTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.one * 0.5f, 100f);
+        sr.sprite = Sprite.Create(srcTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.one * 0.5f, 1000f);
 
         worldWidth = sr.bounds.size.x;
         worldHeight = sr.bounds.size.y;
@@ -43,7 +42,7 @@ public class Ground : MonoBehaviour
         pixelHeight = sr.sprite.texture.height;
         for(int i = 0; i<polyList.Count; i++)
         {
-            Debug.Log(i + "번째 삭제");
+            //Debug.Log(i + "번째 삭제");
             Destroy(polyList[i]);
         }
         polyList.Clear();
@@ -107,7 +106,7 @@ public class Ground : MonoBehaviour
 
     void MakeSprite()
     {
-        sr.sprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.one * 0.5f, 100f);
+        sr.sprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.one * 0.5f, 1000f);
     }
 
     private Vector2Int WorldToPixel(Vector3 pos)
