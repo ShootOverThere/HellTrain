@@ -188,10 +188,8 @@ GameObject:
   - component: {fileID: 5346547632707065913}
   - component: {fileID: 5346547632707065912}
   - component: {fileID: 5346547632707065915}
-  - component: {fileID: 5346547632707065914}
-  - component: {fileID: 5346547632707065909}
-  - component: {fileID: 5346547632707065908}
-  - component: {fileID: 5346547632707065911}
+  - component: {fileID: -6666489794684015754}
+  - component: {fileID: -2087695266245216819}
   m_Layer: 12
   m_Name: player
   m_TagString: Player
@@ -303,38 +301,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &5346547632707065914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5346547632707065910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f464d21a00ed24c4dbebedc61b9f44b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas_for_timer: {fileID: 0}
-  missile_prefab: {fileID: 5744480539741030084, guid: 9a0643efebbdd2247a5752253311c900,
-    type: 3}
-  healthbar: {fileID: 5346547632933340824}
-  playing_arrow: {fileID: 5346547632715780777}
-  gc: {fileID: 0}
-  speed: 5
-  MinPower: 0
-  MaxPower: 100
-  curPower: 0
-  MaxHealth: 100
-  curHealth: 0
-  curAngle: -180
-  minAngle: -360
-  maxAngle: 360
-  isPlaying: 0
-  aimSprite: {fileID: 5346547633471437290}
-  powerTxt: {fileID: 0}
-  angleTxt: {fileID: 0}
---- !u!114 &5346547632707065909
+--- !u!114 &-6666489794684015754
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -347,45 +314,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 10
-    NumStackedVectorObservations: 2
+    VectorObservationSize: 2
+    NumStackedVectorObservations: 1
     m_ActionSpec:
-      m_NumContinuousActions: 3
-      BranchSizes: 
-    VectorActionSize: 03000000
+      m_NumContinuousActions: 0
+      BranchSizes: 64000000b4000000
+    VectorActionSize: 64000000b4000000
     VectorActionDescriptions: []
-    VectorActionSpaceType: 1
+    VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
-  m_InferenceDevice: 2
+  m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: GoTank
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
---- !u!114 &5346547632707065908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5346547632707065910}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd029125693ebba42b81284946b5aa0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 1000
-  ground_obj: {fileID: 0}
-  enemy_obj: {fileID: 0}
-  gr: {fileID: 0}
-  enemy: {fileID: 0}
-  player: {fileID: 0}
---- !u!114 &5346547632707065911
+--- !u!114 &-2087695266245216819
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -394,11 +340,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 5346547632707065910}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Script: {fileID: 11500000, guid: bd029125693ebba42b81284946b5aa0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DecisionPeriod: 1
-  TakeActionsBetweenDecisions: 1
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 1000
+  MinPower: 0
+  MaxPower: 100
+  MaxHealth: 100
+  curHealth: 100
+  minAngle: -360
+  maxAngle: 360
+  missileCount: 0
+  aimSprite: {fileID: 5346547633471437290}
+  missile_prefab: {fileID: 5744480539741030084, guid: 9a0643efebbdd2247a5752253311c900,
+    type: 3}
+  healthbar: {fileID: 5346547632933340824}
+  playing_arrow: {fileID: 5346547632715780777}
+  gc: {fileID: 0}
+  ground_obj: {fileID: 0}
+  enemy_agent: {fileID: 0}
+  ms_obj: {fileID: 0}
+  gr: {fileID: 0}
 --- !u!1 &5346547632715780777
 GameObject:
   m_ObjectHideFlags: 0
