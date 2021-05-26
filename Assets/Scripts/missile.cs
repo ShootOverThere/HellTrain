@@ -46,22 +46,4 @@ public class missile : MonoBehaviour
         rb2d.velocity = Vector2.zero;
         rb2d.isKinematic = true;
     }
-    
-    /*
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.Log("Missile Enter Tag: " + other.gameObject.tag);
-        if (other.gameObject.tag == "Player")
-        {
-            playerAiming pA;
-            pA = other.gameObject.GetComponent<playerAiming>();
-            pA.TakeDamage(10);
-        }
-        if (other.gameObject.tag == "Enemy")
-        {
-            Enemy en;
-            en = other.gameObject.GetComponent<Enemy>();
-            en.TakeDamage(10);
-        }
-    }*/
 }
