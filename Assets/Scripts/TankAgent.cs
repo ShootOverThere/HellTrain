@@ -77,8 +77,8 @@ public class TankAgent : Agent
 
         //player.transform.localPosition = new Vector3(Random.Range(-17f,17f), -5.4f, 0);
         //enemy.transform.localPosition = new Vector3(Random.Range(-17f,17f), -5.4f, 0);
-        player.transform.localPosition = new Vector3(Random.Range(-29f,29f), -5.4f, 0);
-        enemy.transform.localPosition = new Vector3(Random.Range(-29f,29f), -5.4f, 0);
+        player.transform.localPosition = new Vector3(Random.Range(-30f,30f), -5.4f, 0);
+        enemy.transform.localPosition = new Vector3(Random.Range(-30f,30f), -5.4f, 0);
 
         //gr.resetTerrain();  // 일단 주석
         SetResetParameters();
@@ -102,13 +102,11 @@ public class TankAgent : Agent
 
             if (player.getMissileCount() == 0 && gc.SetPlayer() == player_obj){
                 if ( player.curHealth <= 0){
-                    AddReward(-100f);
                     //Debug.Log("die");
                     //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
                     EndEpisode();
                 }
                 else if ( enemy.curHealth <= 0){
-                    AddReward(100f);
                     Debug.Log("kill");
                     //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
                     EndEpisode();
@@ -116,29 +114,27 @@ public class TankAgent : Agent
                 
                 else if (enemy.curHealth < curHealthOfEnemy)
                 {
-                    AddReward(15f);
+                    AddReward(1f);
                     Debug.Log("hit");
                     if((player.curAngle-90) * position > 0)
                         Debug.Log("!!!!!!!!!!!!!!!!!!!!!what the!!!!!!!!!!!!!!!!!!!!!!!!!");
                 }
                 else if (player.curHealth < curHealthOfPlayer)
                 {
-                    AddReward(-15f);
+                    AddReward(-1f);
                     //Debug.Log("hurt");
                 }
                 else{
                     if(player.missile){
                         dist =  Mathf.Abs(player.missile.GetComponent<missile>().endPosition.x - enemy.transform.localPosition.x);
                         //Debug.Log(player.missile.GetComponent<missile>().endPosition.x+" "+enemy.transform.localPosition.x+" "+dist);
-                        if(dist < 1){
-                                AddReward(9f);
-                        }
-                        else if ( dist < 3 ){
-                                AddReward(9/dist);
-                                //Debug.Log(dist);
+                        if ( dist < 5 ){
+                                AddReward(Mathf.Pow(dist,2)/60f - 23*dist/60f + 1f);
+                                Debug.Log("보상 : "+(Mathf.Pow(dist,2)/600f - 23*dist/600f + 0.1f));
+                                Debug.Log("거리 : "+dist);
                         }
                         else
-                                AddReward(-1f);
+                                AddReward(-0.5f);
                     }
                     //Debug.Log("not hit");
                 }
@@ -146,8 +142,8 @@ public class TankAgent : Agent
                 
 
                 gc.WindChange();
-                position = enemy.transform.localPosition.x-player.transform.localPosition.x;
-                wind = gc.pow;
+                position = (enemy.transform.localPosition.x-player.transform.localPosition.x)/60f;
+                wind = gc.pow/10;
                 RequestDecision();
             //Academy.Instance.EnvironmentStep();   
         }
@@ -216,7 +212,13 @@ public class TankAgent : Agent
         // power 는 0~100 사이의 정수
         player.curPower = Mathf.FloorToInt(50*(actionBuffers.ContinuousActions[0]+1));
         // angle 은 0~180 사이의 정수, 나중에 아래를 향해서 쏴야할 경우 181~360으로 변경해야할 수도 있음
-        player.curAngle = Mathf.FloorToInt(60*(actionBuffers.ContinuousActions[1]+1.5f));
+        player.curAngle = Mathf.FloorToInt(55*(actionBuffers.ContinuousActions[1])+35);
+        if(actionBuffers.DiscreteActions[0] == 0){
+            player.isReflected = false;
+        }
+        else{
+            player.isReflected = true;
+        }
 
 
         curHealthOfEnemy = enemy.curHealth;
