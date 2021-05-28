@@ -9,8 +9,10 @@ public class GameControl : MonoBehaviour
     public GameObject[] players;
     public GameObject canvas_for_timer;
     public GameObject background;
-
-    AreaEffector2D wind_field;
+    
+    [HideInInspector]
+    public AreaEffector2D wind_field;
+    public int pow;
     public Text wind_txt;
     
 
@@ -55,8 +57,9 @@ public class GameControl : MonoBehaviour
 
     public void WindChange()
     {
-        int pow = Random.Range(-10, 10);
-        Debug.Log("wind power:" + pow);
+        pow = Random.Range(-10, 10);
+        //pow = 0; // 바람을 없애기 위해 임시 제거 - 박상연
+        // Debug.Log("wind power:" + pow);
         string powerString = "";
         for(int i = 0; i<Mathf.Abs(pow); i++)
         {

@@ -7,7 +7,7 @@ public class CountDownTimer : MonoBehaviour
 {
     public GameControl gc;
 
-    public float currentTime = 0f;
+    public static float currentTime = 0f;
     public float startingTime = 10f;
     public Color hurry_color;
     public Color not_hurry_color;
@@ -40,7 +40,7 @@ public class CountDownTimer : MonoBehaviour
             }
             else
             {
-                gc.ChangePlayer();
+                //gc.ChangePlayer();   다 내가 쏠거야
             }
         }
     }

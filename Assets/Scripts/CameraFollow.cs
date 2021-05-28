@@ -22,7 +22,7 @@ public class CameraFollow : MonoBehaviour
 
     void Start()
     {
-        GameObject player = gc.currentPlayer;
+        GameObject player = gc.SetPlayer();
         target = player.transform;
     }
     void Update()
@@ -58,14 +58,15 @@ public class CameraFollow : MonoBehaviour
     {
         GameObject player = gc.currentPlayer;
         target = player.transform;
-        gc.ChangePlayer();
+        // gc.ChangePlayer(); // 다 내가 쏘기 위해
         //target = gc.SetPlayer().transform;
     }
 
     public void CameraReset()
     {
-        lastVec = target.position;
+        if(target)
+            lastVec = target.position;
         Invoke("CameraToPlayer", 1.5f);
-        playerAiming.missileCount--;
+        //playerAiming.missileCount--;  // 일단 주석
     }
 }

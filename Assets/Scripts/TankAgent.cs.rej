@@ -1,0 +1,19 @@
+diff a/Assets/Scripts/MLAgent/TankAgent.cs b/Assets/Scripts/MLAgent/TankAgent.cs	(rejected hunks)
+@@ -8,14 +8,12 @@
+ // 정우 테스트
+ 
+ public class TankAgent : Agent
+-{    
+-    GameObject player_obj;
++{
++    
+     
+-    public GameObject ground_obj;
++    GameObject player_obj;
+     public GameObject enemy_obj;
+ 
+-    [HideInInspector]
+-    public Ground gr;
+     [HideInInspector]
+     public playerAiming enemy;
+     [HideInInspector]

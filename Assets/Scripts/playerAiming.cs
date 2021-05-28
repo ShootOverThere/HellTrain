@@ -8,7 +8,10 @@ public class playerAiming : MonoBehaviour
 {
     public GameObject canvas_for_timer;
     public GameObject missile_prefab;
-    GameObject missile;
+    public GameObject missile;
+
+    public ObjManager ob; // pool manage 하기 위해 - 박상연
+
     public Healthbar healthbar;
     public GameObject playing_arrow;
     public GameControl gc;
@@ -17,12 +20,12 @@ public class playerAiming : MonoBehaviour
     public float speed = 5f;
     public int MinPower = 0;
     public int MaxPower = 100;
-    public int curPower = 0;
+    public int curPower;
     public int MaxHealth = 100;
     public int curHealth = 100;
     
-    public int curAngle = 0;
-    public int minAngle = -360;
+    public int curAngle;
+    public int minAngle = 0;
     public int maxAngle = 360;
 
     private float holdDownStartTime;
@@ -30,7 +33,7 @@ public class playerAiming : MonoBehaviour
     int leftcount = 0;
     int rightcount = 0;
 
-    public static int missileCount = 0;
+    public static int missileCount;
     bool isShootButtonDown = false;
     bool isPowerCharging = false;
     public bool isPlaying = false;
@@ -44,7 +47,7 @@ public class playerAiming : MonoBehaviour
         curHealth = MaxHealth;
         healthbar.SetMaxHealth(curHealth);
         rb2d = gameObject.GetComponent<Rigidbody2D>();
-        curPower = 0;
+        //curPower = 0;
         //playing_arrow.SetActive(false);
         missileCount = 0;
     }
@@ -161,17 +164,34 @@ public class playerAiming : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
         }
     }
+
+
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (!col.GetComponent<CircleCollider2D>())
             return;
-        if (col.CompareTag("Missile"))
+        if (col.CompareTag("Missile")){
+            if(this.tag == "Player"){
+                Debug.Log("phurt");
+                //this.transform.GetComponent<TankAgent>().AddReward(-1f);
+            }
+            if(this.tag == "Enemy"){
+                Debug.Log("phit");
+                //this.transform.GetComponent<TankAgent>().AddReward(10f);
+            }
             TakeDamage(10);
+        }
     }
+
+    
 
     public void TurnOver()
     {
         gc.ChangePlayer();
+    }
+
+    public int getMissileCount(){
+        return missileCount;
     }
 
     void UpdateAim()
@@ -183,24 +203,45 @@ public class playerAiming : MonoBehaviour
         angleTxt.text = "Angle: " + curAngle;
     }
 
-    public GameObject Shooting()
+    public void Shooting()
     {
         if (missileCount == 0)
         {
             missileCount++;
-            GameObject temp_missile = Instantiate(missile_prefab, aimSprite.transform.position, aimSprite.transform.rotation);
+            //GameObject temp_missile = Instantiate(missile_prefab, aimSprite.transform.position, aimSprite.transform.rotation);
+            missile = MissileInfoSetting(ObjManager.Call().GetObject("missile"));
+            /*   // pool 을 이용하기 위해 아래 함수 추가 후 주석처리
+            temp_missile.SetActive(true);
             CameraFollow.target = temp_missile.transform;
             temp_missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower / 4.5f;
             temp_missile.GetComponent<Rigidbody2D>().AddForce(Vector3.forward * curPower / 5, ForceMode2D.Impulse);
+            */
             FindObjectOfType<AudioManager>().Play("fire");
-            curPower = 0;
-            isPlaying = false;
+            //curPower = 0; // curPower가 0으로 보이는 버그를 수정하기위해 주석처리함 -박상연
+            //isPlaying = false; // 다 내가 쏘기 위해
             canvas_for_timer.GetComponent<CountDownTimer>().TimeflowStop();
-
-            return temp_missile;
+            //curHealth += 10;
+            //return temp_missile;
         }
-        return null;
+        //return null;
     }
+
+    public GameObject MissileInfoSetting(GameObject _Missile){
+        if(_Missile == null) { return _Missile;}
+
+        UpdateAim();
+        _Missile.transform.position = aimSprite.transform.position;
+        _Missile.transform.Translate(new Vector3(1.2f*Mathf.Cos(curAngle*Mathf.PI/180f),1.2f*Mathf.Sin(curAngle*Mathf.PI/180f)),0);
+        
+        _Missile.transform.rotation = aimSprite.transform.rotation;
+        _Missile.SetActive(true);
+        _Missile.GetComponent<missile>().explosionArea.gameObject.SetActive(true);
+        CameraFollow.target = _Missile.transform;
+        _Missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower / 4.5f;
+        _Missile.GetComponent<Rigidbody2D>().AddForce(Vector3.forward * curPower / 5, ForceMode2D.Impulse);
+        return _Missile;
+    }
+
 
     public void TakeDamage(int damage)
     {

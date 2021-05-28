@@ -14,7 +14,7 @@ public class Ground : MonoBehaviour
     int pixelWidth, pixelHeight;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         sr = GetComponent<SpriteRenderer>();
         newTexture = Instantiate(srcTexture);
@@ -35,7 +35,6 @@ public class Ground : MonoBehaviour
         newTexture = Instantiate(srcTexture);
         srcTexture.Apply();
         sr.sprite = Sprite.Create(srcTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.one * 0.5f, 1000f);
-
         worldWidth = sr.bounds.size.x;
         worldHeight = sr.bounds.size.y;
         pixelWidth = sr.sprite.texture.width;
@@ -101,7 +100,7 @@ public class Ground : MonoBehaviour
         if (!col.GetComponent<CircleCollider2D>())
             return;
         if(col.CompareTag("Missile"))
-            MakeAHole(col.GetComponent<CircleCollider2D>());
+            ;//MakeAHole(col.GetComponent<CircleCollider2D>());  // 렉때문에 일단 주석 - 박상연
     }
 
     void MakeSprite()
