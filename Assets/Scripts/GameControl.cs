@@ -56,7 +56,6 @@ public class GameControl : MonoBehaviour
     public void WindChange()
     {
         int pow = Random.Range(-10, 10);
-        Debug.Log("wind power:" + pow);
         string powerString = "";
         for(int i = 0; i<Mathf.Abs(pow); i++)
         {

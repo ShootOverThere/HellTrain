@@ -7,7 +7,6 @@ public class CameraFollow : MonoBehaviour
     public GameControl gc;
     public float dampTime;
     public float zoomTime;
-    private float cameraHeight = 5f;
     private Vector3 velocity = Vector3.zero;
     public static Transform target;
     Vector3 point;
@@ -47,7 +46,6 @@ public class CameraFollow : MonoBehaviour
                 Mathf.Clamp(transform.position.y, bottomLimit, topLimit),
                 transform.position.z
             );
-        //Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, cameraHeight * target.localScale.x, zoomTime);
     }
 
     void CameraToPlayer()

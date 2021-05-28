@@ -42,7 +42,6 @@ public class playerAiming : MonoBehaviour
     int rightcount = 0;
 
     public static int missileCount = 0;
-    bool isShootButtonDown = false;
     bool isPowerCharging = false;
     public bool isPlaying = false;
     public bool isReflected = false;
@@ -158,7 +157,6 @@ public class playerAiming : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("imhere");
         if (!col.GetComponent<CircleCollider2D>())
             return;
         if (col.CompareTag("Missile"))

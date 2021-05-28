@@ -6,10 +6,13 @@ public class missile : MonoBehaviour
 {
     public GameObject explosionArea;
     public Rigidbody2D rb2d;
+    TerrainDestroyer td;
+    public float radius = 0.5f;
     bool hasHit = false;
     // Start is called before the first frame update
     void Start()
     {
+        td = FindObjectOfType<TerrainDestroyer>();
         rb2d = GetComponent<Rigidbody2D>();
         Destroy(gameObject, 5f);
     }
@@ -27,6 +30,7 @@ public class missile : MonoBehaviour
     void OnDestroy()
     {
         //CameraFollow.target = GameObject.FindWithTag("Player").transform;
+        Detonate();
         CameraFollow cm = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
         cm.CameraReset();
     }
@@ -45,5 +49,10 @@ public class missile : MonoBehaviour
         hasHit = true;
         rb2d.velocity = Vector2.zero;
         rb2d.isKinematic = true;
+    }
+
+    void Detonate()
+    {
+        td.DestroyTerrain(transform.position, radius);
     }
 }

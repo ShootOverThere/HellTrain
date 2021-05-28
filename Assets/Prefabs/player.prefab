@@ -631,7 +631,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!95 &4989395593093967249
 Animator:
   serializedVersion: 3
@@ -667,7 +667,6 @@ MonoBehaviour:
   missile_prefab: {fileID: 5744480539741030084, guid: 9a0643efebbdd2247a5752253311c900,
     type: 3}
   healthbar_obj: {fileID: 4989395592381958413}
-  healthbar: {fileID: 4989395592381958408}
   playing_arrow: {fileID: 4989395592179901316}
   gc: {fileID: 0}
   speed: 5
