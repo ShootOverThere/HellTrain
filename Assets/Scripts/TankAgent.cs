@@ -13,9 +13,9 @@ public class TankAgent : Agent
     public GameObject ms_obj;
     public GameControl gc;
     public bool check;
-    GameObject player_obj;
+    public GameObject player_obj;
     public float position;
-    public int wind;
+    public float wind;
     public GameObject ground_obj;
     public GameObject enemy_obj;
     public int curHealthOfEnemy;
@@ -130,7 +130,7 @@ public class TankAgent : Agent
                         //Debug.Log(player.missile.GetComponent<missile>().endPosition.x+" "+enemy.transform.localPosition.x+" "+dist);
                         if ( dist < 5 ){
                                 AddReward(Mathf.Pow(dist,2)/60f - 23*dist/60f + 1f);
-                                Debug.Log("보상 : "+(Mathf.Pow(dist,2)/600f - 23*dist/600f + 0.1f));
+                                Debug.Log("보상 : "+(Mathf.Pow(dist,2)/60f - 23*dist/60f + 1f));
                                 Debug.Log("거리 : "+dist);
                         }
                         else
@@ -143,7 +143,7 @@ public class TankAgent : Agent
 
                 gc.WindChange();
                 position = (enemy.transform.localPosition.x-player.transform.localPosition.x)/60f;
-                wind = gc.pow/10;
+                wind = gc.pow/10f;
                 RequestDecision();
             //Academy.Instance.EnvironmentStep();   
         }
@@ -214,10 +214,10 @@ public class TankAgent : Agent
         // angle 은 0~180 사이의 정수, 나중에 아래를 향해서 쏴야할 경우 181~360으로 변경해야할 수도 있음
         player.curAngle = Mathf.FloorToInt(55*(actionBuffers.ContinuousActions[1])+35);
         if(actionBuffers.DiscreteActions[0] == 0){
-            player.isReflected = false;
+            player.isReflected = -1;
         }
         else{
-            player.isReflected = true;
+            player.isReflected = 1;
         }
 
 

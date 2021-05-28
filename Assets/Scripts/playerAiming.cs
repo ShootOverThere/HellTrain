@@ -8,17 +8,11 @@ public class playerAiming : MonoBehaviour
 {
     public GameObject canvas_for_timer;
     public GameObject missile_prefab;
-<<<<<<< HEAD
     public GameObject missile;
-
     public ObjManager ob; // pool manage 하기 위해 - 박상연
 
-    public Healthbar healthbar;
-=======
-    GameObject missile;
     public GameObject healthbar_obj;
     Healthbar healthbar;
->>>>>>> d6c0435f9e06cfe1d8cf4a834b55d3ce8f14b99f
     public GameObject playing_arrow;
     public GameControl gc;
     Animator animator;
@@ -30,22 +24,10 @@ public class playerAiming : MonoBehaviour
     public int MinPower = 0;
     [HideInInspector]
     public int MaxPower = 100;
-<<<<<<< HEAD
     public int curPower;
-=======
-    [HideInInspector]
-    public int curPower = 0;
-    [HideInInspector]
->>>>>>> d6c0435f9e06cfe1d8cf4a834b55d3ce8f14b99f
     public int MaxHealth = 100;
     [HideInInspector]
     public int curHealth = 100;
-<<<<<<< HEAD
-    
-    public int curAngle;
-    public int minAngle = 0;
-    public int maxAngle = 360;
-=======
 
 
     public int curAngle = 0;
@@ -53,7 +35,6 @@ public class playerAiming : MonoBehaviour
     public int minAngle = -20;
     [HideInInspector]
     public int maxAngle = 90;
->>>>>>> d6c0435f9e06cfe1d8cf4a834b55d3ce8f14b99f
 
     private float holdDownStartTime;
 
@@ -64,7 +45,7 @@ public class playerAiming : MonoBehaviour
     bool isShootButtonDown = false;
     bool isPowerCharging = false;
     public bool isPlaying = false;
-    public bool isReflected = false;
+    public int isReflected = 1; // bool 에서 int로 바꿈
 
     public SpriteRenderer aimSprite;
     public Text powerTxt;
@@ -77,31 +58,21 @@ public class playerAiming : MonoBehaviour
         healthbar = healthbar_obj.GetComponent<Healthbar>();
         healthbar.SetMaxHealth(curHealth);
         rb2d = gameObject.GetComponent<Rigidbody2D>();
-<<<<<<< HEAD
         //curPower = 0;
         //playing_arrow.SetActive(false);
-=======
-        curPower = 0;
->>>>>>> d6c0435f9e06cfe1d8cf4a834b55d3ce8f14b99f
         missileCount = 0;
+        isReflected = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(isReflected == true)
-        {
-            healthbar_obj.transform.localScale = new Vector3(-0.6f, healthbar_obj.transform.localScale.y, healthbar_obj.transform.localScale.z);
-            transform.localScale = new Vector3(-1f, transform.localScale.y, transform.localScale.z);
-            aimSprite.transform.rotation = Quaternion.Euler(0, 0, (float)-curAngle);
-            //aimSprite.
-        }
-        else
-        {
-            healthbar_obj.transform.localScale = new Vector3(0.6f, healthbar_obj.transform.localScale.y, healthbar_obj.transform.localScale.z);
-            transform.localScale = new Vector3(1f, transform.localScale.y, transform.localScale.z);
-            aimSprite.transform.rotation = Quaternion.Euler(0, 0, (float)curAngle);
-        }
+        
+        healthbar_obj.transform.localScale = new Vector3(isReflected*0.6f, healthbar_obj.transform.localScale.y, healthbar_obj.transform.localScale.z);
+        transform.localScale = new Vector3(isReflected*1f, transform.localScale.y, transform.localScale.z);
+        aimSprite.transform.rotation = Quaternion.Euler(0, 0, isReflected*(float)curAngle);
+        //aimSprite.
+        
         if (isPlaying)
         {
             playing_arrow.SetActive(true);
@@ -112,14 +83,14 @@ public class playerAiming : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.A))
             {
-                isReflected = true;
+                isReflected = -1;
                 animator.SetBool("isMoving", true);
                 //rb2d.AddForce(new Vector2(-5f, 0f));
                 transform.Translate(Vector3.left * Time.deltaTime * speed);
             }
             else if (Input.GetKey(KeyCode.D))
             {                
-                isReflected = false;
+                isReflected = 1;
                 animator.SetBool("isMoving", true);
                 //rb2d.AddForce(new Vector2(5f, 0f));
                 transform.Translate(Vector3.right * Time.deltaTime * speed);
@@ -215,14 +186,9 @@ public class playerAiming : MonoBehaviour
     {
         //aimSprite.transform.position = new Vector3(Mathf.Cos(curAngle*Mathf.Deg2Rad) * 0.5f + transform.position.x, Mathf.Sin(curAngle * Mathf.Deg2Rad) * 0.5f + transform.position.y, aimSprite.transform.position.z);
         //aimSprite.transform.localScale = new Vector3((float)curPower / 70 + 0.1f, aimSprite.transform.localScale.y, aimSprite.transform.localScale.z);
-        if(isReflected == true)
-        {
-            aimSprite.transform.rotation = Quaternion.Euler(0, 0, (float)-curAngle);
-        }
-        else
-        {
-            aimSprite.transform.rotation = Quaternion.Euler(0, 0, (float)curAngle);
-        }
+        
+        aimSprite.transform.rotation = Quaternion.Euler(0, 0, (float)curAngle*isReflected);
+        
         
         powerTxt.text = "Power: " + curPower;
         angleTxt.text = "Angle: " + curAngle;
@@ -233,32 +199,12 @@ public class playerAiming : MonoBehaviour
         if (missileCount == 0)
         {
             missileCount++;
-<<<<<<< HEAD
             //GameObject temp_missile = Instantiate(missile_prefab, aimSprite.transform.position, aimSprite.transform.rotation);
             missile = MissileInfoSetting(ObjManager.Call().GetObject("missile"));
             /*   // pool 을 이용하기 위해 아래 함수 추가 후 주석처리
             temp_missile.SetActive(true);
             CameraFollow.target = temp_missile.transform;
             temp_missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower / 4.5f;
-=======
-            Vector3 vec;
-            GameObject temp_missile;
-            if(isReflected == true)
-            {
-                vec = new Vector3(aimSprite.transform.position.x - 1.75f * Mathf.Cos(curAngle*Mathf.Deg2Rad), aimSprite.transform.position.y + 1.75f * Mathf.Sin(curAngle*Mathf.Deg2Rad), aimSprite.transform.position.z);
-                temp_missile = Instantiate(missile_prefab, vec, aimSprite.transform.rotation);
-                CameraFollow.target = temp_missile.transform;
-                temp_missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower / -4.5f;                
-            }
-            else
-            {
-                vec = new Vector3(aimSprite.transform.position.x + 1.75f * Mathf.Cos(curAngle*Mathf.Deg2Rad), aimSprite.transform.position.y + 1.75f * Mathf.Sin(curAngle*Mathf.Deg2Rad), aimSprite.transform.position.z);
-                temp_missile = Instantiate(missile_prefab, vec, aimSprite.transform.rotation);
-                CameraFollow.target = temp_missile.transform;
-                temp_missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower / 4.5f;                
-            }
-
->>>>>>> d6c0435f9e06cfe1d8cf4a834b55d3ce8f14b99f
             temp_missile.GetComponent<Rigidbody2D>().AddForce(Vector3.forward * curPower / 5, ForceMode2D.Impulse);
             */
             FindObjectOfType<AudioManager>().Play("fire");
@@ -271,18 +217,39 @@ public class playerAiming : MonoBehaviour
         //return null;
     }
 
+    /*public GameObject Shooting()
+    {
+        if (missileCount == 0)
+        {
+            missileCount++;
+            Vector3 vec;
+            GameObject temp_missile;
+            
+            vec = new Vector3(aimSprite.transform.position.x + isReflected* 1.75f * Mathf.Cos(curAngle*Mathf.Deg2Rad), aimSprite.transform.position.y + 1.75f * Mathf.Sin(curAngle*Mathf.Deg2Rad), aimSprite.transform.position.z);
+            temp_missile = Instantiate(missile_prefab, vec, aimSprite.transform.rotation);
+            CameraFollow.target = temp_missile.transform;
+            temp_missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower * isReflected / 4.5f;                
+            
+
+            temp_missile.GetComponent<Rigidbody2D>().AddForce(Vector3.forward * curPower / 5, ForceMode2D.Impulse);
+
+            return temp_missile;
+        }
+        return null;
+    }*/
     public GameObject MissileInfoSetting(GameObject _Missile){
         if(_Missile == null) { return _Missile;}
+        Vector3 vec;
 
         UpdateAim();
-        _Missile.transform.position = aimSprite.transform.position;
-        _Missile.transform.Translate(new Vector3(1.2f*Mathf.Cos(curAngle*Mathf.PI/180f),1.2f*Mathf.Sin(curAngle*Mathf.PI/180f)),0);
+        _Missile.transform.position = new Vector3(aimSprite.transform.position.x + isReflected* 1.75f * Mathf.Cos(curAngle*Mathf.Deg2Rad), aimSprite.transform.position.y + 1.75f * Mathf.Sin(curAngle*Mathf.Deg2Rad), aimSprite.transform.position.z);
+        //_Missile.transform.Translate(new Vector3(1.2f*Mathf.Cos(curAngle*Mathf.PI/180f),1.2f*Mathf.Sin(curAngle*Mathf.PI/180f)),0);
         
         _Missile.transform.rotation = aimSprite.transform.rotation;
         _Missile.SetActive(true);
         _Missile.GetComponent<missile>().explosionArea.gameObject.SetActive(true);
         CameraFollow.target = _Missile.transform;
-        _Missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower / 4.5f;
+        _Missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower * isReflected / 4.5f;
         _Missile.GetComponent<Rigidbody2D>().AddForce(Vector3.forward * curPower / 5, ForceMode2D.Impulse);
         return _Missile;
     }
