@@ -8,52 +8,25 @@ public class playerAiming : MonoBehaviour
 {
     public GameObject canvas_for_timer;
     public GameObject missile_prefab;
-<<<<<<< HEAD
     public GameObject missile;
 
     public ObjManager ob; // pool manage 하기 위해 - 박상연
 
     public Healthbar healthbar;
-=======
-    GameObject missile;
-    public GameObject healthbar_obj;
-    Healthbar healthbar;
->>>>>>> d6c0435f9e06cfe1d8cf4a834b55d3ce8f14b99f
     public GameObject playing_arrow;
     public GameControl gc;
-    Animator animator;
     Rigidbody2D rb2d;
 
-    [HideInInspector]
     public float speed = 5f;
-    [HideInInspector]
     public int MinPower = 0;
-    [HideInInspector]
     public int MaxPower = 100;
-<<<<<<< HEAD
     public int curPower;
-=======
-    [HideInInspector]
-    public int curPower = 0;
-    [HideInInspector]
->>>>>>> d6c0435f9e06cfe1d8cf4a834b55d3ce8f14b99f
     public int MaxHealth = 100;
-    [HideInInspector]
     public int curHealth = 100;
-<<<<<<< HEAD
     
     public int curAngle;
     public int minAngle = 0;
     public int maxAngle = 360;
-=======
-
-
-    public int curAngle = 0;
-    [HideInInspector]
-    public int minAngle = -20;
-    [HideInInspector]
-    public int maxAngle = 90;
->>>>>>> d6c0435f9e06cfe1d8cf4a834b55d3ce8f14b99f
 
     private float holdDownStartTime;
 
@@ -64,88 +37,66 @@ public class playerAiming : MonoBehaviour
     bool isShootButtonDown = false;
     bool isPowerCharging = false;
     public bool isPlaying = false;
-    public bool isReflected = false;
 
     public SpriteRenderer aimSprite;
     public Text powerTxt;
     public Text angleTxt;
     // Start is called before the first frame update
     void Start()
-    {
-        animator = GetComponent<Animator>();        
+    {        
         curHealth = MaxHealth;
-        healthbar = healthbar_obj.GetComponent<Healthbar>();
         healthbar.SetMaxHealth(curHealth);
         rb2d = gameObject.GetComponent<Rigidbody2D>();
-<<<<<<< HEAD
         //curPower = 0;
         //playing_arrow.SetActive(false);
-=======
-        curPower = 0;
->>>>>>> d6c0435f9e06cfe1d8cf4a834b55d3ce8f14b99f
         missileCount = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(isReflected == true)
-        {
-            healthbar_obj.transform.localScale = new Vector3(-0.6f, healthbar_obj.transform.localScale.y, healthbar_obj.transform.localScale.z);
-            transform.localScale = new Vector3(-1f, transform.localScale.y, transform.localScale.z);
-            aimSprite.transform.rotation = Quaternion.Euler(0, 0, (float)-curAngle);
-            //aimSprite.
-        }
-        else
-        {
-            healthbar_obj.transform.localScale = new Vector3(0.6f, healthbar_obj.transform.localScale.y, healthbar_obj.transform.localScale.z);
-            transform.localScale = new Vector3(1f, transform.localScale.y, transform.localScale.z);
-            aimSprite.transform.rotation = Quaternion.Euler(0, 0, (float)curAngle);
-        }
         if (isPlaying)
         {
             playing_arrow.SetActive(true);
 
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                curAngle = 150;
+            }
             if (Input.GetKeyDown(KeyCode.W))
             {
                 rb2d.velocity = Vector2.up * 5f;
             }
             if (Input.GetKey(KeyCode.A))
             {
-                isReflected = true;
-                animator.SetBool("isMoving", true);
                 //rb2d.AddForce(new Vector2(-5f, 0f));
                 transform.Translate(Vector3.left * Time.deltaTime * speed);
             }
-            else if (Input.GetKey(KeyCode.D))
-            {                
-                isReflected = false;
-                animator.SetBool("isMoving", true);
+            if (Input.GetKey(KeyCode.D))
+            {
                 //rb2d.AddForce(new Vector2(5f, 0f));
                 transform.Translate(Vector3.right * Time.deltaTime * speed);
             }
-            else
-            {
-                animator.SetBool("isMoving", false);
-            }
 
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                if (leftcount >= 3)
-                {                    
-                    if (curAngle < maxAngle)
-                        curAngle++;
+                if (leftcount >= 5)
+                {
+                    curAngle++;
+                    if (curAngle == maxAngle)
+                        curAngle = 0;
                     leftcount = 0;
                 }
                 else
                     leftcount++;
             }
-            if (Input.GetKey(KeyCode.DownArrow))
+            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.RightArrow))
             {
-                if (rightcount >= 3)
-                {                    
-                    if (curAngle > minAngle)
-                        curAngle--;
+                if (rightcount >= 5)
+                {
+                    curAngle--;
+                    if (curAngle == minAngle)
+                        curAngle = 0;
                     rightcount = 0;
                 }
                 else
@@ -155,11 +106,43 @@ public class playerAiming : MonoBehaviour
             {
                 isPowerCharging = true;
                 holdDownStartTime = Time.time;
+                /*
+                if (powerCount == 3)
+                {
+                    if (curPower < 100 && isPowerCharging)
+                        curPower++;
+                    else if (curPower == 100)
+                    {
+                        isPowerCharging = false;
+                    }
+
+                    if (curPower > 0 && !isPowerCharging)
+                    {
+                        curPower--;
+                    }
+                    else if (curPower == 0)
+                    {
+                        isPowerCharging = true;
+                    }
+                    powerCount = 0;
+                }
+                else
+                    powerCount++;
+                */
             }
             if (Input.GetKeyUp(KeyCode.Space) && missileCount == 0)
             {
+                //float holdDownTime = Time.time - holdDownStartTime;
+                //curPower = (int)CalculateHoldPower(holdDownTime);
                 Shooting();
+                //missileCount++;
                 isPowerCharging = false;
+                /*
+                isShootButtonDown = false;
+                Shooting();
+                missileCount++;
+                powerCount = 0;
+                */
             }
             if(isPowerCharging)
                 curPower = (int)CalculateHoldPower(Time.time - holdDownStartTime);
@@ -173,6 +156,7 @@ public class playerAiming : MonoBehaviour
         else
         {
             playing_arrow.SetActive(false);
+            aimSprite.transform.localScale = new Vector3(0, aimSprite.transform.localScale.y, aimSprite.transform.localScale.z);
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -184,7 +168,6 @@ public class playerAiming : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("imhere");
         if (!col.GetComponent<CircleCollider2D>())
             return;
         if (col.CompareTag("Missile")){
@@ -213,17 +196,9 @@ public class playerAiming : MonoBehaviour
 
     void UpdateAim()
     {
-        //aimSprite.transform.position = new Vector3(Mathf.Cos(curAngle*Mathf.Deg2Rad) * 0.5f + transform.position.x, Mathf.Sin(curAngle * Mathf.Deg2Rad) * 0.5f + transform.position.y, aimSprite.transform.position.z);
-        //aimSprite.transform.localScale = new Vector3((float)curPower / 70 + 0.1f, aimSprite.transform.localScale.y, aimSprite.transform.localScale.z);
-        if(isReflected == true)
-        {
-            aimSprite.transform.rotation = Quaternion.Euler(0, 0, (float)-curAngle);
-        }
-        else
-        {
-            aimSprite.transform.rotation = Quaternion.Euler(0, 0, (float)curAngle);
-        }
-        
+        aimSprite.transform.position = new Vector3(Mathf.Cos(curAngle*Mathf.Deg2Rad) * 0.5f + transform.position.x, Mathf.Sin(curAngle * Mathf.Deg2Rad) * 0.5f + transform.position.y, aimSprite.transform.position.z);
+        aimSprite.transform.localScale = new Vector3((float)curPower / 70 + 0.1f, aimSprite.transform.localScale.y, aimSprite.transform.localScale.z);
+        aimSprite.transform.rotation = Quaternion.Euler(0, 0, (float)curAngle);
         powerTxt.text = "Power: " + curPower;
         angleTxt.text = "Angle: " + curAngle;
     }
@@ -233,32 +208,12 @@ public class playerAiming : MonoBehaviour
         if (missileCount == 0)
         {
             missileCount++;
-<<<<<<< HEAD
             //GameObject temp_missile = Instantiate(missile_prefab, aimSprite.transform.position, aimSprite.transform.rotation);
             missile = MissileInfoSetting(ObjManager.Call().GetObject("missile"));
             /*   // pool 을 이용하기 위해 아래 함수 추가 후 주석처리
             temp_missile.SetActive(true);
             CameraFollow.target = temp_missile.transform;
             temp_missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower / 4.5f;
-=======
-            Vector3 vec;
-            GameObject temp_missile;
-            if(isReflected == true)
-            {
-                vec = new Vector3(aimSprite.transform.position.x - 1.75f * Mathf.Cos(curAngle*Mathf.Deg2Rad), aimSprite.transform.position.y + 1.75f * Mathf.Sin(curAngle*Mathf.Deg2Rad), aimSprite.transform.position.z);
-                temp_missile = Instantiate(missile_prefab, vec, aimSprite.transform.rotation);
-                CameraFollow.target = temp_missile.transform;
-                temp_missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower / -4.5f;                
-            }
-            else
-            {
-                vec = new Vector3(aimSprite.transform.position.x + 1.75f * Mathf.Cos(curAngle*Mathf.Deg2Rad), aimSprite.transform.position.y + 1.75f * Mathf.Sin(curAngle*Mathf.Deg2Rad), aimSprite.transform.position.z);
-                temp_missile = Instantiate(missile_prefab, vec, aimSprite.transform.rotation);
-                CameraFollow.target = temp_missile.transform;
-                temp_missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower / 4.5f;                
-            }
-
->>>>>>> d6c0435f9e06cfe1d8cf4a834b55d3ce8f14b99f
             temp_missile.GetComponent<Rigidbody2D>().AddForce(Vector3.forward * curPower / 5, ForceMode2D.Impulse);
             */
             FindObjectOfType<AudioManager>().Play("fire");
@@ -295,6 +250,33 @@ public class playerAiming : MonoBehaviour
             curHealth = 0;
         healthbar.SetHealth(curHealth);        
     }
+
+    public void PowerUp()
+    {
+        if (curPower >= MinPower && curPower < MaxPower)
+            curPower++;
+    }
+
+    public void PowerDown()
+    {
+        if (curPower > MinPower && curPower <= MaxPower)
+            curPower--;
+    }
+
+    public void AngleUp()
+    {
+        curAngle++;
+        if (curAngle == maxAngle)
+            curAngle = 0;
+    }
+
+    public void AngleDown()
+    {
+        curAngle--;
+        if (curAngle == minAngle)
+            curAngle = 0;
+    }
+
     private float CalculateHoldPower(float holdTime)
     {
         float maxHoldTime = 1.0f;

@@ -8,17 +8,9 @@ public class playerAiming : MonoBehaviour
 {
     public GameObject canvas_for_timer;
     public GameObject missile_prefab;
-<<<<<<< HEAD
-    public GameObject missile;
-
-    public ObjManager ob; // pool manage 하기 위해 - 박상연
-
-    public Healthbar healthbar;
-=======
     GameObject missile;
     public GameObject healthbar_obj;
     Healthbar healthbar;
->>>>>>> d6c0435f9e06cfe1d8cf4a834b55d3ce8f14b99f
     public GameObject playing_arrow;
     public GameControl gc;
     Animator animator;
@@ -30,22 +22,12 @@ public class playerAiming : MonoBehaviour
     public int MinPower = 0;
     [HideInInspector]
     public int MaxPower = 100;
-<<<<<<< HEAD
-    public int curPower;
-=======
     [HideInInspector]
     public int curPower = 0;
     [HideInInspector]
->>>>>>> d6c0435f9e06cfe1d8cf4a834b55d3ce8f14b99f
     public int MaxHealth = 100;
     [HideInInspector]
     public int curHealth = 100;
-<<<<<<< HEAD
-    
-    public int curAngle;
-    public int minAngle = 0;
-    public int maxAngle = 360;
-=======
 
 
     public int curAngle = 0;
@@ -53,14 +35,13 @@ public class playerAiming : MonoBehaviour
     public int minAngle = -20;
     [HideInInspector]
     public int maxAngle = 90;
->>>>>>> d6c0435f9e06cfe1d8cf4a834b55d3ce8f14b99f
 
     private float holdDownStartTime;
 
     int leftcount = 0;
     int rightcount = 0;
 
-    public static int missileCount;
+    public static int missileCount = 0;
     bool isShootButtonDown = false;
     bool isPowerCharging = false;
     public bool isPlaying = false;
@@ -77,12 +58,7 @@ public class playerAiming : MonoBehaviour
         healthbar = healthbar_obj.GetComponent<Healthbar>();
         healthbar.SetMaxHealth(curHealth);
         rb2d = gameObject.GetComponent<Rigidbody2D>();
-<<<<<<< HEAD
-        //curPower = 0;
-        //playing_arrow.SetActive(false);
-=======
         curPower = 0;
->>>>>>> d6c0435f9e06cfe1d8cf4a834b55d3ce8f14b99f
         missileCount = 0;
     }
 
@@ -180,35 +156,18 @@ public class playerAiming : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
         }
     }
-
-
     private void OnTriggerEnter2D(Collider2D col)
     {
         Debug.Log("imhere");
         if (!col.GetComponent<CircleCollider2D>())
             return;
-        if (col.CompareTag("Missile")){
-            if(this.tag == "Player"){
-                Debug.Log("phurt");
-                //this.transform.GetComponent<TankAgent>().AddReward(-1f);
-            }
-            if(this.tag == "Enemy"){
-                Debug.Log("phit");
-                //this.transform.GetComponent<TankAgent>().AddReward(10f);
-            }
+        if (col.CompareTag("Missile"))
             TakeDamage(10);
-        }
     }
-
-    
 
     public void TurnOver()
     {
         gc.ChangePlayer();
-    }
-
-    public int getMissileCount(){
-        return missileCount;
     }
 
     void UpdateAim()
@@ -228,19 +187,11 @@ public class playerAiming : MonoBehaviour
         angleTxt.text = "Angle: " + curAngle;
     }
 
-    public void Shooting()
+    public GameObject Shooting()
     {
         if (missileCount == 0)
         {
             missileCount++;
-<<<<<<< HEAD
-            //GameObject temp_missile = Instantiate(missile_prefab, aimSprite.transform.position, aimSprite.transform.rotation);
-            missile = MissileInfoSetting(ObjManager.Call().GetObject("missile"));
-            /*   // pool 을 이용하기 위해 아래 함수 추가 후 주석처리
-            temp_missile.SetActive(true);
-            CameraFollow.target = temp_missile.transform;
-            temp_missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower / 4.5f;
-=======
             Vector3 vec;
             GameObject temp_missile;
             if(isReflected == true)
@@ -258,35 +209,16 @@ public class playerAiming : MonoBehaviour
                 temp_missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower / 4.5f;                
             }
 
->>>>>>> d6c0435f9e06cfe1d8cf4a834b55d3ce8f14b99f
             temp_missile.GetComponent<Rigidbody2D>().AddForce(Vector3.forward * curPower / 5, ForceMode2D.Impulse);
-            */
             FindObjectOfType<AudioManager>().Play("fire");
-            //curPower = 0; // curPower가 0으로 보이는 버그를 수정하기위해 주석처리함 -박상연
-            //isPlaying = false; // 다 내가 쏘기 위해
+            curPower = 0;
+            isPlaying = false;
             canvas_for_timer.GetComponent<CountDownTimer>().TimeflowStop();
-            //curHealth += 10;
-            //return temp_missile;
+
+            return temp_missile;
         }
-        //return null;
+        return null;
     }
-
-    public GameObject MissileInfoSetting(GameObject _Missile){
-        if(_Missile == null) { return _Missile;}
-
-        UpdateAim();
-        _Missile.transform.position = aimSprite.transform.position;
-        _Missile.transform.Translate(new Vector3(1.2f*Mathf.Cos(curAngle*Mathf.PI/180f),1.2f*Mathf.Sin(curAngle*Mathf.PI/180f)),0);
-        
-        _Missile.transform.rotation = aimSprite.transform.rotation;
-        _Missile.SetActive(true);
-        _Missile.GetComponent<missile>().explosionArea.gameObject.SetActive(true);
-        CameraFollow.target = _Missile.transform;
-        _Missile.GetComponent<Rigidbody2D>().velocity = aimSprite.transform.right * curPower / 4.5f;
-        _Missile.GetComponent<Rigidbody2D>().AddForce(Vector3.forward * curPower / 5, ForceMode2D.Impulse);
-        return _Missile;
-    }
-
 
     public void TakeDamage(int damage)
     {
