@@ -10,7 +10,9 @@ public class playerAiming : MonoBehaviour
     public GameObject missile_prefab;
     GameObject missile;
     public GameObject healthbar_obj;
+    public GameObject powerbar_obj;
     Healthbar healthbar;
+    Powerbar powerbar;
     public GameObject playing_arrow;
     public GameControl gc;
     Animator animator;
@@ -56,6 +58,7 @@ public class playerAiming : MonoBehaviour
         curHealth = MaxHealth;
         healthbar = healthbar_obj.GetComponent<Healthbar>();
         healthbar.SetMaxHealth(curHealth);
+        powerbar = powerbar_obj.GetComponent<Powerbar>();
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         curPower = 0;
         missileCount = 0;
@@ -67,6 +70,7 @@ public class playerAiming : MonoBehaviour
         if(isReflected == true)
         {
             healthbar_obj.transform.localScale = new Vector3(-0.6f, healthbar_obj.transform.localScale.y, healthbar_obj.transform.localScale.z);
+            powerbar_obj.transform.localScale = new Vector3(-0.6f, healthbar_obj.transform.localScale.y, healthbar_obj.transform.localScale.z);
             transform.localScale = new Vector3(-1f, transform.localScale.y, transform.localScale.z);
             aimSprite.transform.rotation = Quaternion.Euler(0, 0, (float)-curAngle);
             //aimSprite.
@@ -74,6 +78,7 @@ public class playerAiming : MonoBehaviour
         else
         {
             healthbar_obj.transform.localScale = new Vector3(0.6f, healthbar_obj.transform.localScale.y, healthbar_obj.transform.localScale.z);
+            powerbar_obj.transform.localScale = new Vector3(0.6f, healthbar_obj.transform.localScale.y, healthbar_obj.transform.localScale.z);
             transform.localScale = new Vector3(1f, transform.localScale.y, transform.localScale.z);
             aimSprite.transform.rotation = Quaternion.Euler(0, 0, (float)curAngle);
         }
@@ -140,6 +145,7 @@ public class playerAiming : MonoBehaviour
                 curPower = (int)CalculateHoldPower(Time.time - holdDownStartTime);
             UpdateAim();
             healthbar.SetHealth(curHealth);
+            powerbar.SetPower(curPower);
             if (curHealth <= 0)
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);

@@ -68,7 +68,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0.66049194, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 1.5
 --- !u!50 &463581877
 Rigidbody2D:
   serializedVersion: 4
@@ -236,6 +236,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionArea: {fileID: 463581874}
-  td_obj: {fileID: 0}
   rb2d: {fileID: 5744480539741030085}
   radius: 3
